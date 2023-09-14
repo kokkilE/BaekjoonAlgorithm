@@ -33,13 +33,12 @@ expression.forEach {
         }
         // 현재 연산 우선순위가 기존보다 낮으면 기존의 연산자를 연산
         else if operatorPriority($0, isInParenthesis: isInParenthesis) <= operatorPriorityStack.last! {
+            while !operandStack.isEmpty {
+                postfixExpression.append(operandStack.removeFirst())
+            }
+            
             while let priority = operatorPriorityStack.last,
                   operatorPriority($0, isInParenthesis: isInParenthesis) <= priority {
-                
-                while !operandStack.isEmpty {
-                    postfixExpression.append(operandStack.removeFirst())
-                }
-                
                 postfixExpression.append(operatorStack.removeLast())
                 operatorPriorityStack.popLast()
             }
